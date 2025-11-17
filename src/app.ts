@@ -17,6 +17,7 @@ import authRoutes from './routes/auth/index';
 import userRoutes from './routes/users/index';
 import exampleRoutes from './routes/example/index';
 import todoRoutes from './routes/todos/index';
+import createOrderRoutes from './routes/create-order/index';
 
 export async function buildApp() {
   const app = Fastify({
@@ -73,6 +74,9 @@ export async function buildApp() {
 
       // Todo routes (demonstrates Golden Orchestrator pattern)
       await fastify.register(todoRoutes, { prefix: '/todos' });
+
+      // CreateOrder routes (demonstrates Golden Orchestrator pattern)
+      await fastify.register(createOrderRoutes, { prefix: '/create-orders' });
     },
     { prefix: `${app.config.API_PREFIX}/${app.config.API_VERSION}` }
   );
