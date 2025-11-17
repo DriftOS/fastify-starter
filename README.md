@@ -2,6 +2,36 @@
 
 Production-ready Fastify starter template with TypeScript, Prisma, Docker, Prometheus, and the Golden Orchestrator pattern.
 
+[![Built with Fastify Gold Standard](https://img.shields.io/badge/Built%20with-Fastify%20Gold%20Standard-blue?style=flat&logo=fastify)](https://github.com/DriftOS/fastify-starter)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen?logo=node.js)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> 🎉 **[Live Demo](https://fastify-starter-demo.driftos.dev)** - See it in action with Grafana dashboards + Swagger docs  
+> 📚 **[Deploy Your Own](./DEPLOY.md)** - One-click deploy to Railway, Render, or Fly.io
+
+## 🏆 Why This Starter?
+
+Unlike other Fastify templates, this includes **zero-config monitoring** and **automatic dashboard generation** out of the box.
+
+| Feature | This Starter | NestJS | Express Boilerplates | Other Fastify Starters |
+|---------|--------------|---------|---------------------|----------------------|
+| **Auto-Generated Dashboards** | ✅ Zero config | ❌ Manual setup | ❌ Not included | ❌ Not included |
+| **Pipeline Architecture** | ✅ Built-in | ⚠️ Different pattern | ❌ None | ❌ None |
+| **Load Testing** | ✅ Included | ❌ DIY | ❌ DIY | ❌ DIY |
+| **Performance** | ⚡ Native Fastify | 🐢 Express underneath | 🐌 Express | ⚡ Fastify |
+| **Type Safety** | ✅ Strict mode | ✅ Good | ⚠️ Varies | ⚠️ Varies |
+| **Production Observability** | ✅ Prometheus + Grafana | ⚠️ Manual | ❌ Basic | ❌ Basic |
+| **Service Generator** | ✅ CLI included | ✅ Has CLI | ❌ None | ❌ None |
+| **Docker Stack** | ✅ Full stack | ⚠️ App only | ⚠️ Varies | ⚠️ Varies |
+| **Learning Curve** | 📈 Medium | 📈 Steep | 📉 Low | 📉 Low |
+
+**Perfect for:**
+- Production APIs that need monitoring from day 1
+- Teams that want observability without the setup overhead
+- Developers who value performance AND developer experience
+- Projects that will scale (built-in patterns for growth)
+
 ## ✨ Features
 
 ### Core Stack
@@ -429,6 +459,47 @@ npm run docker:down   # Stop Docker services
 - XSS protection with Helmet
 - CORS properly configured
 - Environment variables validation
+
+## 🏅 Built With This Starter
+
+Show that your project uses the Fastify Gold Standard! Add this badge to your README:
+
+```markdown
+[![Built with Fastify Gold Standard](https://img.shields.io/badge/Built%20with-Fastify%20Gold%20Standard-blue?style=flat&logo=fastify)](https://github.com/DriftOS/fastify-starter)
+```
+
+[![Built with Fastify Gold Standard](https://img.shields.io/badge/Built%20with-Fastify%20Gold%20Standard-blue?style=flat&logo=fastify)](https://github.com/DriftOS/fastify-starter)
+
+**Benefits:**
+- 🔗 Builds backlinks to help others discover this starter
+- 📈 Social proof shows you're using production-grade architecture
+- 🤝 Supports the open-source community
+
+## 🌟 Used By
+
+Projects and companies using this starter:
+
+- **[DriftOS](https://driftos.dev)** - AI-powered branching memory system
+- **Your Project Here** - [Submit a PR](https://github.com/DriftOS/fastify-starter/pulls) to be featured!
+
+*Using this starter in production? We'd love to feature you! Submit a PR with your project.*
+
+## ❓ When to Use Orchestrators vs Direct Access
+
+**Use the Orchestrator Pattern (TodoService) when:**
+- ✅ Business logic has multiple steps
+- ✅ You need performance tracking per operation
+- ✅ Operations might fail independently (critical vs non-critical)
+- ✅ Logic will grow in complexity
+- ✅ You want automatic Grafana dashboards
+
+**Use Direct Access (ExampleService - being removed) when:**
+- ✅ Simple CRUD operations
+- ✅ Single database query
+- ✅ No complex business logic
+- ✅ Performance tracking not needed
+
+> **Note:** The `/api/v1/examples` routes demonstrate simple CRUD without orchestrators. These will be removed in v2.0. For production apps, we recommend the orchestrator pattern for all business logic to ensure consistent observability.
 
 ## 🤝 Contributing
 

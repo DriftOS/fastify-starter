@@ -42,11 +42,15 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         docExpansion: 'none',
         deepLinking: true,
         persistAuthorization: true,
+        // Safari compatibility
+        tryItOutEnabled: true,
       },
-      staticCSP: true,
-      transformStaticCSP: (header) => header,
+      // Disable staticCSP for better Safari compatibility
+      staticCSP: false,
       transformSpecification: (swaggerObject, _req, _reply) => {
-        return swaggerObject;
+        // Remove host to make it work across environments (Safari compatibility)
+        const { host, ...spec } = swaggerObject;
+        return spec;
       },
     });
   }
