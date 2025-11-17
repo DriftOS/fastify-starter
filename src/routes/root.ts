@@ -1,7 +1,11 @@
 import type { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
 
 const rootRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
-  fastify.get('/', async (_request, reply) => {
+  fastify.get('/', {
+    schema: {
+      hide: true, // Hide from Swagger docs - it's an HTML page, not an API endpoint
+    },
+  }, async (_request, reply) => {
     const baseUrl = `${_request.protocol}://${_request.hostname}`;
     
     const html = `

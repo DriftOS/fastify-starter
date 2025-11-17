@@ -21,7 +21,8 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         { name: 'Health', description: 'Health check endpoints' },
         { name: 'Auth', description: 'Authentication endpoints' },
         { name: 'Users', description: 'User management endpoints' },
-        { name: 'Example', description: 'Example CRUD endpoints' },
+        { name: 'Todos', description: 'Todo management (demonstrates Golden Orchestrator pattern)' },
+        { name: 'Example', description: 'Example CRUD endpoints (demonstrates direct Prisma access)' },
       ],
       securityDefinitions: {
         Bearer: {
