@@ -6,95 +6,55 @@ The live demo is hosted at: **[fastify-starter-demo.driftos.dev](https://fastify
 
 **What's included:**
 - ✅ Full API with Swagger docs
-- ✅ Grafana dashboards (public read-only)
-- ✅ Prometheus metrics
-- ✅ Load testing demonstration
+- ✅ Prometheus metrics endpoint
+- ✅ PostgreSQL database
 
 ## Platform Comparison
 
-| Platform | One-Click? | Auto Services? | Cost | Best For |
-|----------|-----------|----------------|------|----------|
-| **Render** | ✅ Yes (`render.yaml`) | ✅ All | ~$20/mo | **Production (recommended)** |
-| Railway | ❌ Manual | ❌ Add each | ~$15/mo | Simple apps only |
-| Fly.io | ⚡ CLI | ✅ Most | ~$10/mo | Docker experts |
-| DigitalOcean | 🐳 docker-compose | ✅ All | ~$12/mo | Full control |
+| Platform | One-Click? | Cost | Best For |
+|----------|-----------|------|----------|
+| **Render** | ✅ Yes (`render.yaml`) | ~$7/mo | **Recommended** |
+| Railway | ⚠️ Manual setup | ~$5/mo | Simple apps |
+| Fly.io | ⚡ CLI | ~$10/mo | Docker experts |
 
 ---
 
 ## Quick Deploy Options
 
-### 🏆 Best: Render (One-Click Everything!)
+### 🏆 Best: Render (One-Click)
 
-**⚡ TRUE one-click deployment with ALL services**
+**⚡ TRUE one-click deployment**
 
 1. Push `render.yaml` to your repo
 2. Go to [Render Dashboard](https://dashboard.render.com/)
 3. Click "New +" → "Blueprint"
 4. Connect your repo
-5. **DONE!** Render deploys: App + PostgreSQL + Prometheus + Grafana
+5. **DONE!** Render deploys: App + PostgreSQL
 
-**Cost:** ~$20/month (includes all services)  
-**Time:** 3 minutes  
-**Services:** ✅ Auto-configured
+**Cost:** ~$7/month  
+**Time:** 3 minutes
 
 ---
 
-### Option 1: Railway (Manual - 15+ minutes ⚠️)
+### Option 1: Railway (Manual Setup)
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter)
 
-⚠️ **Warning:** Railway requires significant manual configuration. Use Render for one-click deployment instead.
+**Setup Steps:**
 
-**Complete Setup:**
-
-#### 1️⃣ Deploy the App
 1. Click the button above
 2. Connect your GitHub account
-3. Railway creates your project
-
-#### 2️⃣ Add PostgreSQL
-- Click "Add Service" → "PostgreSQL"
-- Railway auto-sets `DATABASE_URL` via `${{ Postgres.DATABASE_URL }}` ✅
-
-#### 3️⃣ Add Grafana (Optional - for dashboards)
-- Click "Add Service" → "Docker Image"
-- Image: `grafana/grafana:latest`
-- **CRITICAL:** Add these environment variables:
-  - `GF_AUTH_ANONYMOUS_ENABLED=true`
-  - `GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer`
-  - `GF_SECURITY_ADMIN_PASSWORD=your-strong-password`
-  - `GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana` ⚠️ **Required for subpath**
-  - `GF_SERVER_SERVE_FROM_SUB_PATH=true` ⚠️ **Required for subpath**
-
-#### 4️⃣ Configure App Environment
-In your main app service, add/update:
-- `NODE_ENV=production` ⚠️ **Critical!**
-- `JWT_SECRET` = a strong random string
-- `DATABASE_URL` = `${{ Postgres.DATABASE_URL }}`
-- `GRAFANA_URL=http://grafana:3000` ⚠️ **Must include `http://`**
-
-#### 5️⃣ Redeploy All Services
-- Redeploy Grafana service
-- Redeploy your app service
-
-**Done! Your API is live** 🎉
-
-**Common Gotchas:**
-- ❌ Forgetting `http://` in `GRAFANA_URL` → Invalid URL error
-- ❌ Missing Grafana subpath env vars → Assets fail to load
-- ❌ Using `NODE_ENV=development` → App crashes
+3. Click "Add Service" → "PostgreSQL"
+4. Railway auto-sets `DATABASE_URL` ✅
+5. Set `JWT_SECRET` to a random string
+6. Deploy!
 
 **Access:**
 - API: `https://your-app.railway.app/`
 - Swagger: `https://your-app.railway.app/documentation`
-- Grafana: `https://your-app.railway.app/grafana` (if added)
 - Metrics: `https://your-app.railway.app/metrics`
 
-**Cost:** 
-- Hobby: ~$5-10/month (app + PostgreSQL)
-- With monitoring: ~$15/month (+ Prometheus + Grafana)
-
-**Note:** Prometheus and Grafana are **optional**. The app works perfectly without them!
+**Cost:** ~$5/month
 
 ---
 

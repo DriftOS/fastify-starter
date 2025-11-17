@@ -12,7 +12,6 @@ import swaggerPlugin from './plugins/swagger.js';
 
 // Import routes
 import rootRoutes from './routes/root.js';
-import grafanaRoutes from './routes/grafana.js';
 import healthRoutes from './routes/health/index';
 import authRoutes from './routes/auth/index';
 import userRoutes from './routes/users/index';
@@ -56,9 +55,6 @@ export async function buildApp() {
 
   // Root route (no prefix)
   await app.register(rootRoutes);
-
-  // Grafana proxy (accessible at /grafana)
-  await app.register(grafanaRoutes);
 
   // API prefix wrapper
   await app.register(

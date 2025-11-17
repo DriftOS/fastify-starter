@@ -7,81 +7,44 @@ Production-ready Fastify starter template with TypeScript, Prisma, Docker, Prome
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> 🎉 **[Live Demo](https://fastify-starter-demo.driftos.dev)** - See it in action with Grafana dashboards + Swagger docs
+> 🎉 **[Live Demo](https://fastify-starter-demo.driftos.dev)** - See it in action with Swagger docs
 
-## 🚀 Quick Deploy (ALL services included)
+## 🚀 Quick Deploy
 
-Deploy the **complete stack** (App + PostgreSQL + Prometheus + Grafana) with one click:
+| Platform | Deploy Button | Time | Cost |
+|----------|--------------|------|------|
+| **Render** ⭐ | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy) | 3 min | ~$7/mo |
+| **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter) | 5 min | ~$5/mo |
 
-| Platform | Deploy Button | Auto-Services | Time | Cost |
-|----------|--------------|---------------|------|------|
-| **Render** ⭐ | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy) | ✅ ALL | 3 min | ~$20/mo |
-| **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter) | ⚠️ Manual | 5 min | ~$15/mo |
-| **Fly.io** | [Deploy Guide](./DEPLOY.md#fly-io) | ✅ Most | 5 min | ~$10/mo |
-
-> 💡 **Recommended:** Use **Render** for true one-click deployment with all services auto-configured. Railway requires manually adding each service.  
 > 📖 **Full instructions:** See [DEPLOY.md](./DEPLOY.md) for detailed setup guides
 
 ## 🏆 Why This Starter?
 
-Unlike other Fastify templates, this includes **zero-config monitoring** and **automatic dashboard generation** out of the box.
+Production-ready Fastify template with best practices, type safety, and Prometheus metrics built-in.
 
-| Feature | This Starter | NestJS | Express Boilerplates | Other Fastify Starters |
-|---------|--------------|---------|---------------------|----------------------|
-| **Auto-Generated Dashboards** | ✅ Zero config | ❌ Manual setup | ❌ Not included | ❌ Not included |
-| **Pipeline Architecture** | ✅ Built-in | ⚠️ Different pattern | ❌ None | ❌ None |
-| **Load Testing** | ✅ Included | ❌ DIY | ❌ DIY | ❌ DIY |
-| **Performance** | ⚡ Native Fastify | 🐢 Express underneath | 🐌 Express | ⚡ Fastify |
-| **Type Safety** | ✅ Strict mode | ✅ Good | ⚠️ Varies | ⚠️ Varies |
-| **Production Observability** | ✅ Prometheus + Grafana | ⚠️ Manual | ❌ Basic | ❌ Basic |
-| **Service Generator** | ✅ CLI included | ✅ Has CLI | ❌ None | ❌ None |
-| **Docker Stack** | ✅ Full stack | ⚠️ App only | ⚠️ Varies | ⚠️ Varies |
-| **Learning Curve** | 📈 Medium | 📈 Steep | 📉 Low | 📉 Low |
+| Feature | This Starter | NestJS | Express | Other Fastify |
+|---------|--------------|---------|---------|---------------|
+| **Pipeline Architecture** | ✅ Built-in | ⚠️ Different | ❌ None | ❌ None |
+| **Performance** | ⚡ Native Fastify | 🐢 Express under hood | 🐌 Express | ⚡ Fastify |
+| **Type Safety** | ✅ Strict TypeScript | ✅ Good | ⚠️ Varies | ⚠️ Varies |
+| **Metrics** | ✅ Prometheus built-in | ⚠️ Manual | ❌ Basic | ❌ Basic |
+| **Docker** | ✅ Full stack | ⚠️ App only | ⚠️ Varies | ⚠️ Varies |
 
 **Perfect for:**
-- Production APIs that need monitoring from day 1
-- Teams that want observability without the setup overhead
-- Developers who value performance AND developer experience
-- Projects that will scale (built-in patterns for growth)
+- Production APIs that need to scale
+- Teams that value developer experience
+- Projects that require strong type safety
 
 ## ✨ Features
-
-### 📦 Complete Production Stack
-
-When you deploy, you get **ALL of these services** automatically configured:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Your Application                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │   Fastify    │──│  PostgreSQL  │  │  Prometheus  │  │
-│  │     API      │  │   Database   │  │   Metrics    │  │
-│  └──────┬───────┘  └──────────────┘  └──────┬───────┘  │
-│         │                                     │          │
-│         └─────────────┬─────────────────────┘          │
-│                       │                                  │
-│                 ┌─────▼──────┐                          │
-│                 │  Grafana   │                          │
-│                 │ Dashboards │                          │
-│                 └────────────┘                          │
-└─────────────────────────────────────────────────────────┘
-```
-
-**What you get:**
-- ✅ **Fastify API** - High-performance REST API with Swagger docs
-- ✅ **PostgreSQL** - Production database with automatic backups
-- ✅ **Prometheus** - Metrics collection and storage
-- ✅ **Grafana** - Pre-configured dashboards accessible at `/grafana`
-- ✅ **All connected** - Services communicate via internal networking
 
 ### Core Stack
 - **Fastify** - High-performance web framework (4x faster than Express)
 - **TypeScript** - Full type safety with strict mode
-- **Prisma** - Type-safe database ORM
-- **PostgreSQL** - Robust relational database
-- **Docker** - Containerization for all services
-- **Prometheus** - Metrics collection
-- **Grafana** - Beautiful dashboards
+- **Prisma** - Type-safe database ORM with migrations
+- **PostgreSQL** - Production database
+- **Docker** - Full containerization
+- **Prometheus** - Built-in metrics at `/metrics`
+- **Swagger** - Auto-generated API documentation
 
 ### Architecture Patterns
 - **Golden Orchestrator Pattern** - Pipeline-based business logic

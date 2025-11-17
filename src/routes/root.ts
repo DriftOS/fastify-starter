@@ -9,7 +9,6 @@ const rootRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
       documentation: `${baseUrl}/documentation`,
       health: `${baseUrl}${fastify.config.API_PREFIX}/${fastify.config.API_VERSION}/health`,
       metrics: `${baseUrl}/metrics`,
-      grafana: `${baseUrl}/grafana`,
       github: 'https://github.com/DriftOS/fastify-starter',
       docs: 'https://github.com/DriftOS/fastify-starter#readme',
     });
