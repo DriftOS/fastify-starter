@@ -14,6 +14,7 @@ declare module 'fastify' {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 const metricsPlugin: FastifyPluginAsync = async (fastify, _options) => {
   // Collect default metrics
   collectDefaultMetrics({ register });
