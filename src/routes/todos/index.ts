@@ -149,19 +149,29 @@ const todoRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
         },
       },
     },
-    async (_request, reply) => {
-      // This is a simple example - you could create a GetTodosOrchestrator
-      // For now, direct access is fine for simple queries
+    async (request, reply) => {
+      // Simple query - for complex operations, you'd use an orchestrator
+      const todos = await fastify.prisma.todo.findMany({
+        where: {
+          userId: request.user.id,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          completed: true,
+        },
+      });
+
       return reply.send({
         success: true,
-        data: [
-          {
-            id: '1',
-            title: 'Example Todo',
-            description: 'This demonstrates the golden pattern',
-            completed: false,
-          },
-        ],
+        data: todos.map(todo => ({
+          ...todo,
+          description: todo.description || '',
+        })),
       });
     }
   );
