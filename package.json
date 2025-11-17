@@ -34,7 +34,7 @@
     "generate:route": "plop route",
     "generate:dashboards": "tsx scripts/generate-dashboards.ts",
     "load-test": "tsx scripts/load-test.ts",
-    "prepare": "husky install"
+    "prepare": "husky install || true"
   },
   "dependencies": {
     "@fastify/auth": "^4.5.0",
