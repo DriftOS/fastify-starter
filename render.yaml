@@ -19,34 +19,26 @@ services:
         value: http://grafana:3000
     healthCheckPath: /api/v1/health
     
-  # PostgreSQL Database
-  - type: pserv
+  # PostgreSQL Database (use native Render PostgreSQL)
+  - type: postgres
     name: postgres
-    env: docker
-    image: postgres:16-alpine
-    disk:
-      name: postgres-data
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 10
-    envVars:
-      - key: POSTGRES_DB
-        value: fastify_db
-      - key: POSTGRES_USER
-        value: fastify_user
-      - key: POSTGRES_PASSWORD
-        generateValue: true
-        
-  # Prometheus
+    databaseName: fastify_db
+    user: fastify_user
+    plan: starter
+    
+  # Prometheus (private Docker service)
   - type: pserv
     name: prometheus
-    env: docker
-    image: prom/prometheus:latest
+    runtime: image
+    image:
+      url: prom/prometheus:latest
     
-  # Grafana
+  # Grafana (private Docker service)
   - type: pserv
     name: grafana
-    env: docker
-    image: grafana/grafana:latest
+    runtime: image
+    image:
+      url: grafana/grafana:latest
     envVars:
       - key: GF_AUTH_ANONYMOUS_ENABLED
         value: true
@@ -54,8 +46,3 @@ services:
         value: Viewer
       - key: GF_SECURITY_ADMIN_PASSWORD
         generateValue: true
-
-databases:
-  - name: postgres
-    databaseName: fastify_db
-    user: fastify_user
