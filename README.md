@@ -1,0 +1,457 @@
+# 🚀 Fastify Gold Standard Starter
+
+Production-ready Fastify starter template with TypeScript, Prisma, Docker, Prometheus, and the Golden Orchestrator pattern.
+
+## ✨ Features
+
+### Core Stack
+- **Fastify** - High-performance web framework
+- **TypeScript** - Full type safety with strict mode
+- **Prisma** - Type-safe database ORM
+- **PostgreSQL** - Robust relational database
+- **Docker** - Containerization for all services
+- **Prometheus** - Metrics collection
+- **Grafana** - Beautiful dashboards
+
+### Architecture Patterns
+- **Golden Orchestrator Pattern** - Pipeline-based business logic
+- **Singleton Services** - Efficient resource management
+- **Pure Operations** - Testable, composable functions
+- **Performance Tracking** - Automatic metrics for every pipeline stage
+
+### Developer Experience
+- **ESLint & Prettier** - Consistent code formatting
+- **Husky** - Pre-commit hooks
+- **Hot Reload** - Fast development cycle with tsx
+- **TypeBox** - Runtime validation with TypeScript types
+- **Swagger/OpenAPI** - Auto-generated API documentation
+
+### Production Ready
+- **JWT Authentication** - Secure auth flow
+- **Rate Limiting** - DDoS protection
+- **CORS** - Configurable cross-origin support
+- **Helmet** - Security headers
+- **Health Checks** - Kubernetes-ready endpoints
+- **Graceful Shutdown** - Clean process termination
+- **Structured Logging** - Pino with correlation IDs
+- **Environment Validation** - Fail fast on missing config
+
+## 🏗️ Project Structure
+
+```
+fastify-gold-standard-starter/
+├── src/
+│   ├── core/
+│   │   ├── orchestration/          # Golden orchestrator pattern
+│   │   │   ├── base-orchestrator.ts
+│   │   │   ├── performance-interceptor.ts
+│   │   │   └── types.ts
+│   │   └── hooks/                  # Fastify lifecycle hooks
+│   ├── plugins/                    # Fastify plugins
+│   │   ├── auth.ts                 # JWT authentication
+│   │   ├── cors.ts                 # CORS configuration
+│   │   ├── env.ts                  # Environment validation
+│   │   ├── metrics.ts              # Prometheus metrics
+│   │   ├── prisma.ts               # Database client
+│   │   └── swagger.ts              # API documentation
+│   ├── routes/                     # API endpoints
+│   │   ├── health/                 # Health checks
+│   │   ├── auth/                   # Authentication
+│   │   ├── users/                  # User management
+│   │   └── example/                # Example CRUD
+│   ├── services/                   # Business logic
+│   │   └── todo/                   # Example service
+│   │       ├── orchestrator.ts     # Pipeline orchestrator
+│   │       ├── operations/         # Pure functions
+│   │       ├── types/              # TypeScript types
+│   │       ├── __tests__/          # Co-located tests
+│   │       └── index.ts            # Service facade
+│   ├── utils/                      # Utilities
+│   ├── app.ts                      # Fastify app setup
+│   └── server.ts                   # Entry point
+├── prisma/
+│   ├── schema.prisma               # Database schema
+│   └── migrations/                 # Database migrations
+├── docker/
+│   ├── docker-compose.yml          # Local development
+│   ├── prometheus/                 # Prometheus config
+│   └── grafana/                    # Grafana dashboards
+├── scripts/
+│   └── generate-dashboards.ts      # Auto-generate Grafana dashboards
+├── Makefile                        # Make commands for common tasks
+├── setup.sh                        # One-command setup script
+└── .github/
+    └── workflows/
+        └── ci.yml                  # CI/CD pipeline
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18-20 LTS (Node 22+ may show dependency warnings)
+- Docker & Docker Compose
+- PostgreSQL (or use Docker)
+
+### 🎨 NEW: Service Generator
+
+**Generate a complete service in 2 minutes!**
+
+```bash
+npm run generate
+
+? What do you want to generate? Service
+? Service name: Order
+? Operations: validate,process,notify
+? Include Prisma model? Yes
+? Include API route? Yes
+? Include tests? Yes
+
+✨ Created 14 files with ~600 lines of production code!
+```
+
+See **[docs/GETTING_STARTED.md](./docs/GETTING_STARTED.md)** for full details.
+
+After generating services, automatically create Grafana dashboards:
+
+```bash
+npm run generate:dashboards
+```
+
+This scans all orchestrators and generates performance monitoring dashboards automatically!
+
+**Pre-built dashboards included:**
+- **System Overview** - HTTP metrics, response times, error rates
+- **Per-Service Dashboards** - Auto-generated from orchestrators
+
+---
+
+### Installation
+
+1. **Clone the template**
+```bash
+git clone https://github.com/yourusername/fastify-gold-standard-starter.git
+cd fastify-gold-standard-starter
+```
+
+2. **Run setup script**
+```bash
+./setup.sh
+```
+
+The script automatically:
+- ✅ Installs dependencies
+- ✅ Creates `.env` file
+- ✅ Starts Docker services
+- ✅ Runs database migrations
+- ✅ Generates Grafana dashboards
+
+3. **Start development server**
+```bash
+npm run dev
+# Or use make commands:
+make dev
+```
+
+**Done!** Your API is now running at:
+- **API**: http://localhost:3000/api/v1
+- **Swagger**: http://localhost:3000/documentation
+- **Prometheus**: http://localhost:9090
+- **Grafana**: http://localhost:3001 (admin/admin)
+
+---
+
+### 🎯 Daily Workflow (Like DriftOS!)
+
+```bash
+# Start everything (one command!)
+make up          # Starts Docker + runs migrations + generates dashboards
+
+# Start dev server (in another terminal)
+make dev
+
+# Test the API (in another terminal)
+make test-api    # Automated tests with auth
+
+# Open Grafana
+make grafana
+
+# Stop everything
+make down
+```
+
+### 🔥 See Dashboards In Action
+
+**Light up your monitoring in 3 steps:**
+
+```bash
+# Terminal 1: Start API
+npm run dev
+
+# Terminal 2: Generate realistic traffic
+npm run load-test
+
+# Browser: Watch the magic
+open http://localhost:3001
+```
+
+The load tester will:
+- ✅ Authenticate automatically
+- ✅ Send randomized requests (realistic traffic patterns)
+- ✅ Respect rate limits (no 429 errors)
+- ✅ Display live stats (requests, latency, success rate)
+
+Watch your dashboards update in real-time! All operations visible, all metrics accurate, zero configuration.
+
+---
+
+### 🎯 API Endpoints
+
+**Public Routes (No Auth):**
+- `GET /api/v1/health` - Health check
+- `GET /api/v1/ready` - Readiness probe
+- `POST /api/v1/auth/login` - User login
+- `POST /api/v1/auth/register` - User registration
+
+**Protected Routes (Auth Required):**
+- `GET /api/v1/users/me` - Get current user
+- `POST /api/v1/todos` - **Create todo (Golden Orchestrator pattern) ⭐**
+- `GET /api/v1/todos` - List todos
+- `POST /api/v1/examples` - Create example (direct Prisma access)
+- `GET /api/v1/examples` - List examples (direct Prisma access)
+
+## 📚 Documentation
+
+- **[docs/GETTING_STARTED.md](./docs/GETTING_STARTED.md)** - Setup, first service, commands
+- **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - Golden Orchestrator pattern explained
+
+---
+
+## 🚀 Using This Template
+
+### 1. Click "Use this template" on GitHub
+
+### 2. Add Repository Description
+```
+Production-ready Fastify starter with TypeScript, Prisma, Docker, Prometheus & the Golden Orchestrator pattern. Includes CLI generator for instant service scaffolding.
+```
+
+### 3. Add Topics
+```
+fastify, typescript, starter-template, orchestrator-pattern, 
+prisma, docker, prometheus, grafana, cli-generator, production-ready
+```
+
+### 4. Clone and Start
+```bash
+git clone your-repo-url
+cd your-repo
+./setup.sh
+make up
+make dev
+```
+
+## 🏗️ Golden Orchestrator Pattern
+
+The Golden Orchestrator pattern provides a structured way to handle complex business logic through pipelines.
+
+**See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for complete examples and deep dive.**
+
+### Quick Example
+
+```typescript
+// Define pipeline context
+interface TodoPipelineContext extends OperationContext {
+  input: CreateTodoInput;
+  todo?: Todo;
+}
+
+// Create orchestrator
+class CreateTodoOrchestrator extends BaseOrchestrator<
+  TodoPipelineContext,
+  Todo,
+  CreateTodoInput
+> {
+  protected getPipeline(): PipelineStage<TodoPipelineContext>[] {
+    return [
+      { name: 'validate-input', operation: validateInput, critical: true },
+      { name: 'create-todo', operation: createTodo, critical: true },
+      { name: 'notify-creation', operation: notifyCreation, critical: false },
+    ];
+  }
+}
+
+// Pure operation function
+async function createTodo(context: TodoPipelineContext): Promise<TodoPipelineContext> {
+  const todo = await prisma.todo.create({
+    data: context.input
+  });
+  context.todo = todo;
+  return context;
+}
+```
+
+### Benefits
+- **Testability**: Each operation is a pure function
+- **Observability**: Automatic performance tracking
+- **Composability**: Reuse operations across orchestrators
+- **Reliability**: Critical vs non-critical operations
+- **Maintainability**: Clear separation of concerns
+
+## 📊 Monitoring & Observability
+
+### 🎨 Automatic Dashboard Generation
+
+**Generate beautiful Grafana dashboards in seconds!**
+
+```bash
+npm run generate:dashboards
+```
+
+Creates production-ready dashboards with:
+- ✅ Avg Response Time, Success Rate, P95 Latency, Ops/min
+- ✅ Stacked area charts showing operation breakdown
+- ✅ Time-range aware sparklines
+- ✅ All metrics extracted automatically from your orchestrator code
+
+**See [docs/AUTOMATIC_DASHBOARDS.md](./docs/AUTOMATIC_DASHBOARDS.md) for details.**
+
+### 🔥 Load Testing
+
+Simulate production traffic and watch your dashboards light up!
+
+```bash
+npm run load-test
+```
+
+Features:
+- ✅ Rate-limit aware (respects 100 req/min limit)
+- ✅ Randomized traffic (±30% jitter for realistic patterns)
+- ✅ Authentication built-in
+- ✅ Configurable RPS and duration
+- ✅ Live stats display
+
+```bash
+# Custom load
+RPS=2 DURATION=5 npm run load-test
+
+# Disable randomization
+RANDOMIZE=false npm run load-test
+```
+
+### Prometheus Metrics
+- **HTTP metrics:** Request duration, count, status codes
+- **Orchestrator metrics:** Pipeline duration, stage latency, success rate
+- **System metrics:** Active connections, memory, CPU
+- **Custom metrics:** Business-specific tracking
+
+### Grafana Dashboards
+- **System Overview:** HTTP performance, P95 latency, error rates, requests/min
+- **Service Dashboards:** Auto-generated per orchestrator with operation breakdown
+- **Time-range aware:** All metrics adapt to selected time range
+- **Production-ready:** 5-30s auto-refresh, proper sparklines
+
+### Health Checks
+- `/health` - Basic health check
+- `/ready` - Readiness probe (checks DB connection)
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with UI
+npm run test:ui
+```
+
+## 📦 Production Deployment
+
+### Using Docker
+
+```bash
+# Build production image
+docker build -t fastify-app .
+
+# Run container
+docker run -p 3000:3000 --env-file .env fastify-app
+```
+
+### Using PM2
+
+```bash
+# Build the application
+npm run build
+
+# Start with PM2
+pm2 start dist/server.js --name fastify-app
+```
+
+### Environment Variables
+
+Key environment variables for production:
+
+```env
+NODE_ENV=production
+PORT=3000
+DATABASE_URL=postgresql://user:pass@host:5432/db
+JWT_SECRET=your-secret-key
+RATE_LIMIT_MAX=100
+CORS_ORIGIN=https://yourdomain.com
+```
+
+## 🛠️ Scripts
+
+```bash
+npm run dev           # Start development server
+npm run build         # Build for production
+npm run start         # Start production server
+npm run typecheck     # TypeScript type checking
+npm run lint          # Run ESLint
+npm run format        # Format code with Prettier
+npm run db:migrate    # Run database migrations
+npm run db:studio     # Open Prisma Studio
+npm run docker:up     # Start Docker services
+npm run docker:down   # Stop Docker services
+```
+
+## 🔒 Security
+
+- JWT-based authentication
+- Rate limiting on all endpoints
+- Input validation with TypeBox
+- SQL injection protection via Prisma
+- XSS protection with Helmet
+- CORS properly configured
+- Environment variables validation
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Fastify](https://www.fastify.io/) - Fast and low overhead web framework
+- [Prisma](https://www.prisma.io/) - Next-generation ORM
+- [TypeBox](https://github.com/sinclairzx81/typebox) - JSON Schema Type Builder
+
+## 📧 Support
+
+For support, email hello@driftos.dev or open an issue in the repository.
+
+---
+
+Built with ❤️ using the Fastify Gold Standard architecture
