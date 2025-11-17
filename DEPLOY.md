@@ -39,11 +39,13 @@ The live demo is hosted at: **[fastify-starter-demo.driftos.dev](https://fastify
 
 ---
 
-### Option 1: Railway (Manual Multi-Service)
+### Option 1: Railway (Manual - 15+ minutes ⚠️)
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter)
 
-**Complete Setup (5 minutes):**
+⚠️ **Warning:** Railway requires significant manual configuration. Use Render for one-click deployment instead.
+
+**Complete Setup:**
 
 #### 1️⃣ Deploy the App
 1. Click the button above
@@ -54,27 +56,33 @@ The live demo is hosted at: **[fastify-starter-demo.driftos.dev](https://fastify
 - Click "Add Service" → "PostgreSQL"
 - Railway auto-sets `DATABASE_URL` via `${{ Postgres.DATABASE_URL }}` ✅
 
-#### 3️⃣ Add Prometheus (Optional - for metrics)
-- Click "Add Service" → "Docker Image"
-- Image: `prom/prometheus:latest`
-- No extra config needed
-
-#### 4️⃣ Add Grafana (Optional - for dashboards)
+#### 3️⃣ Add Grafana (Optional - for dashboards)
 - Click "Add Service" → "Docker Image"
 - Image: `grafana/grafana:latest`
-- Add environment variables:
+- **CRITICAL:** Add these environment variables:
   - `GF_AUTH_ANONYMOUS_ENABLED=true`
   - `GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer`
   - `GF_SECURITY_ADMIN_PASSWORD=your-strong-password`
-- Expose port: `3000`
+  - `GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana` ⚠️ **Required for subpath**
+  - `GF_SERVER_SERVE_FROM_SUB_PATH=true` ⚠️ **Required for subpath**
 
-#### 5️⃣ Configure App Environment
+#### 4️⃣ Configure App Environment
 In your main app service, add/update:
+- `NODE_ENV=production` ⚠️ **Critical!**
 - `JWT_SECRET` = a strong random string
 - `DATABASE_URL` = `${{ Postgres.DATABASE_URL }}`
-- `GRAFANA_URL` = `http://grafana:3000` (if you added Grafana)
+- `GRAFANA_URL=http://grafana:3000` ⚠️ **Must include `http://`**
+
+#### 5️⃣ Redeploy All Services
+- Redeploy Grafana service
+- Redeploy your app service
 
 **Done! Your API is live** 🎉
+
+**Common Gotchas:**
+- ❌ Forgetting `http://` in `GRAFANA_URL` → Invalid URL error
+- ❌ Missing Grafana subpath env vars → Assets fail to load
+- ❌ Using `NODE_ENV=development` → App crashes
 
 **Access:**
 - API: `https://your-app.railway.app/`
