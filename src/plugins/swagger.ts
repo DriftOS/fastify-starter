@@ -21,7 +21,6 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         { name: 'Auth', description: 'Authentication endpoints' },
         { name: 'Users', description: 'User management endpoints' },
         { name: 'Todos', description: 'Todo management (demonstrates Golden Orchestrator pattern)' },
-        { name: 'CreateOrders', description: 'CreateOrder management (demonstrates Golden Orchestrator pattern)' },
         { name: 'Example', description: 'Example CRUD endpoints (demonstrates direct Prisma access)' },
       ],
       components: {
