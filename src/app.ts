@@ -11,6 +11,7 @@ import metricsPlugin from './plugins/metrics.js';
 import swaggerPlugin from './plugins/swagger.js';
 
 // Import routes
+import rootRoutes from './routes/root.js';
 import healthRoutes from './routes/health/index';
 import authRoutes from './routes/auth/index';
 import userRoutes from './routes/users/index';
@@ -51,6 +52,9 @@ export async function buildApp() {
     max: app.config.RATE_LIMIT_MAX,
     timeWindow: app.config.RATE_LIMIT_TIME_WINDOW,
   });
+
+  // Root route (no prefix)
+  await app.register(rootRoutes);
 
   // API prefix wrapper
   await app.register(
