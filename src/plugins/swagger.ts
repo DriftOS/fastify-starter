@@ -14,6 +14,8 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         version: '1.0.0',
       },
       // Don't set servers - let Swagger UI auto-detect from browser URL
+      // Tags are optional - Swagger auto-discovers them from routes!
+      // Define tags here only if you want to control order or add descriptions
       tags: [
         { name: 'Health', description: 'Health check endpoints' },
         { name: 'Auth', description: 'Authentication endpoints' },

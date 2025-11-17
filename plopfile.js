@@ -175,24 +175,36 @@ export default function (plop) {
 
       // 8. Success message
       actions.push(() => {
+        const kebabName = serviceName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        const camelName = serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
+        
         console.log('\n✨ Service created successfully!\n');
-        console.log(`📁 Service location: src/services/${serviceName.toLowerCase()}/`);
+        console.log(`📁 Service: src/services/${kebabName}/`);
         if (data.includeRoute) {
-          console.log(`🛣️  Route location: src/routes/${serviceName.toLowerCase()}/`);
+          console.log(`🛣️  Route: src/routes/${kebabName}/`);
         }
         if (data.includeTests) {
-          console.log(`🧪 Tests location: src/services/${serviceName.toLowerCase()}/__tests__/`);
+          console.log(`🧪 Tests: src/services/${kebabName}/__tests__/`);
         }
-        console.log('\n📝 Next steps:');
-        console.log(`   1. Implement business logic in operations/`);
-        console.log(`   2. Update types in types/index.ts`);
+        
+        console.log('\n📝 Next steps:\n');
+        console.log('1️⃣  Register route in src/app.ts:');
+        console.log(`   \x1b[36mimport ${camelName}Routes from './routes/${kebabName}/index';\x1b[0m`);
+        console.log(`   \x1b[36mawait fastify.register(${camelName}Routes, { prefix: '/${kebabName}s' });\x1b[0m\n`);
+        
+        console.log('2️⃣  Implement business logic in operations/\n');
+        
         if (data.includePrisma) {
-          console.log(`   3. Run: npm run db:migrate`);
+          console.log('3️⃣  Run database migration:');
+          console.log(`   \x1b[36mnpm run db:migrate\x1b[0m\n`);
         }
-        if (data.includeRoute) {
-          console.log(`   4. Register route in src/app.ts`);
-        }
-        console.log(`   5. Run tests: npm test ${serviceName.toLowerCase()}`);
+        
+        console.log('4️⃣  Restart dev server (or it auto-restarts)\n');
+        
+        console.log('5️⃣  View in Swagger:');
+        console.log(`   \x1b[36mhttp://localhost:8080/documentation\x1b[0m`);
+        console.log(`   \x1b[90m(Tags auto-detected - no manual config needed!)\x1b[0m\n`);
+        
         return 'Generator completed!';
       });
 
