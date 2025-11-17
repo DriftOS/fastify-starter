@@ -9,6 +9,97 @@ The live demo is hosted at: **[fastify-starter-demo.driftos.dev](https://fastify
 - ✅ Prometheus metrics endpoint
 - ✅ PostgreSQL database
 
+---
+
+## 🏆 Recommended: Full Production Stack (VPS)
+
+**For real production deployments** - Complete stack with monitoring and dashboards.
+
+### What You Get:
+- ✅ **API** - Your Fastify application
+- ✅ **PostgreSQL** - Production database
+- ✅ **Prometheus** - Metrics collection
+- ✅ **Grafana** - Auto-generated dashboards
+- ✅ **All services networked** via Docker Compose
+- ✅ **Dashboard generation works perfectly**
+
+### Prerequisites:
+- A VPS (DigitalOcean, Linode, Hetzner, AWS EC2, etc.)
+- Docker & Docker Compose installed
+- Domain (optional, for HTTPS)
+
+### Deployment Steps:
+
+```bash
+# 1. SSH into your VPS
+ssh root@your-server-ip
+
+# 2. Install Docker (if not installed)
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+# 3. Clone your repo
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+
+# 4. Set up environment
+cp .env.example .env
+nano .env  # Update JWT_SECRET, DATABASE_URL, etc.
+
+# 5. Generate Grafana dashboards
+npm install
+npm run generate:dashboards
+
+# 6. Start everything!
+docker compose -f docker/docker-compose.yml up -d
+
+# 7. Check status
+docker compose -f docker/docker-compose.yml ps
+```
+
+### Access Your Stack:
+
+- **API:** `http://your-server-ip:8080`
+- **Swagger:** `http://your-server-ip:8080/documentation`
+- **Grafana:** `http://your-server-ip:3001` (admin/admin)
+- **Prometheus:** `http://your-server-ip:9090`
+- **Metrics:** `http://your-server-ip:8080/metrics`
+
+### Cost:
+- **DigitalOcean Droplet:** $6/mo (2GB RAM)
+- **Hetzner Cloud:** €4.51/mo (2GB RAM)
+- **Linode:** $5/mo (1GB RAM - sufficient for starter projects)
+
+### Optional: Add HTTPS with Caddy
+
+```bash
+# Install Caddy
+apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
+apt update
+apt install caddy
+
+# Configure reverse proxy
+cat > /etc/caddy/Caddyfile << EOF
+your-domain.com {
+    reverse_proxy localhost:8080
+}
+EOF
+
+# Start Caddy
+systemctl enable caddy
+systemctl start caddy
+```
+
+Now your API is at `https://your-domain.com` with automatic SSL! 🎉
+
+---
+
+## Quick Deploy Options (Demo/Testing)
+
+**For demos and quick testing** - App + PostgreSQL only (no Grafana/Prometheus).
+
 ## Platform Comparison
 
 | Platform | One-Click? | Cost | Best For |

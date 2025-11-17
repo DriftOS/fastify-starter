@@ -9,14 +9,30 @@ Production-ready Fastify starter template with TypeScript, Prisma, Docker, Prome
 
 > 🎉 **[Live Demo](https://fastify-starter-demo.driftos.dev)** - See it in action with Swagger docs
 
-## 🚀 Quick Deploy
+## 🚀 Deployment Options
+
+### Quick Deploy (Demo/Testing)
+**One-click deployment** - Great for demos and testing. Includes API + PostgreSQL only.
 
 | Platform | Deploy Button | Time | Cost |
 |----------|--------------|------|------|
 | **Render** ⭐ | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy) | 3 min | ~$7/mo |
 | **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter) | 5 min | ~$5/mo |
 
-> 📖 **Full instructions:** See [DEPLOY.md](./DEPLOY.md) for detailed setup guides
+### Full Production Stack (Recommended)
+**Docker Compose on VPS** - Complete stack with Grafana dashboards and monitoring.
+
+```bash
+# One command - full production setup
+npm run generate:dashboards
+docker compose -f docker/docker-compose.yml up -d
+```
+
+✅ API + PostgreSQL + Prometheus + Grafana  
+✅ Auto-generated dashboards work perfectly  
+✅ ~$5-10/mo on DigitalOcean, Hetzner, or Linode
+
+> 📖 **Full instructions:** See [DEPLOY.md](./DEPLOY.md) for all deployment options
 
 ## 🏆 Why This Starter?
 
