@@ -1,0 +1,61 @@
+services:
+  # Main Application
+  - type: web
+    name: fastify-app
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: postgres
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: GRAFANA_URL
+        value: http://grafana:3000
+    healthCheckPath: /api/v1/health
+    
+  # PostgreSQL Database
+  - type: pserv
+    name: postgres
+    env: docker
+    image: postgres:16-alpine
+    disk:
+      name: postgres-data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 10
+    envVars:
+      - key: POSTGRES_DB
+        value: fastify_db
+      - key: POSTGRES_USER
+        value: fastify_user
+      - key: POSTGRES_PASSWORD
+        generateValue: true
+        
+  # Prometheus
+  - type: pserv
+    name: prometheus
+    env: docker
+    image: prom/prometheus:latest
+    
+  # Grafana
+  - type: pserv
+    name: grafana
+    env: docker
+    image: grafana/grafana:latest
+    envVars:
+      - key: GF_AUTH_ANONYMOUS_ENABLED
+        value: true
+      - key: GF_AUTH_ANONYMOUS_ORG_ROLE
+        value: Viewer
+      - key: GF_SECURITY_ADMIN_PASSWORD
+        generateValue: true
+
+databases:
+  - name: postgres
+    databaseName: fastify_db
+    user: fastify_user

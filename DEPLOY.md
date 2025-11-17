@@ -10,29 +10,83 @@ The live demo is hosted at: **[fastify-starter-demo.driftos.dev](https://fastify
 - ✅ Prometheus metrics
 - ✅ Load testing demonstration
 
+## Platform Comparison
+
+| Platform | One-Click? | Auto Services? | Cost | Best For |
+|----------|-----------|----------------|------|----------|
+| **Render** | ✅ Yes (`render.yaml`) | ✅ All | ~$20/mo | **Production (recommended)** |
+| Railway | ❌ Manual | ❌ Add each | ~$15/mo | Simple apps only |
+| Fly.io | ⚡ CLI | ✅ Most | ~$10/mo | Docker experts |
+| DigitalOcean | 🐳 docker-compose | ✅ All | ~$12/mo | Full control |
+
+---
+
 ## Quick Deploy Options
 
-### Option 1: Railway (Easiest)
+### 🏆 Best: Render (One-Click Everything!)
+
+**⚡ TRUE one-click deployment with ALL services**
+
+1. Push `render.yaml` to your repo
+2. Go to [Render Dashboard](https://dashboard.render.com/)
+3. Click "New +" → "Blueprint"
+4. Connect your repo
+5. **DONE!** Render deploys: App + PostgreSQL + Prometheus + Grafana
+
+**Cost:** ~$20/month (includes all services)  
+**Time:** 3 minutes  
+**Services:** ✅ Auto-configured
+
+---
+
+### Option 1: Railway (Manual Multi-Service)
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter)
 
-**Step-by-step:**
+**Complete Setup (5 minutes):**
 
+#### 1️⃣ Deploy the App
 1. Click the button above
 2. Connect your GitHub account
 3. Railway creates your project
-4. **IMPORTANT: Add PostgreSQL database:**
-   - Click "Add Service" (top right)
-   - Select "PostgreSQL"
-   - Railway auto-creates DB and sets `DATABASE_URL` ✅
-5. Update `JWT_SECRET` if needed (already set to a placeholder)
-6. Deploy!
 
-**Done! Your API is live in ~3 minutes** 🎉
+#### 2️⃣ Add PostgreSQL
+- Click "Add Service" → "PostgreSQL"
+- Railway auto-sets `DATABASE_URL` via `${{ Postgres.DATABASE_URL }}` ✅
 
-**Cost:** ~$5/month for hobby projects
+#### 3️⃣ Add Prometheus (Optional - for metrics)
+- Click "Add Service" → "Docker Image"
+- Image: `prom/prometheus:latest`
+- No extra config needed
 
-**Why separate PostgreSQL?** Railway doesn't run `docker-compose.yml` - it only builds your Dockerfile. PostgreSQL must be a separate Railway service.
+#### 4️⃣ Add Grafana (Optional - for dashboards)
+- Click "Add Service" → "Docker Image"
+- Image: `grafana/grafana:latest`
+- Add environment variables:
+  - `GF_AUTH_ANONYMOUS_ENABLED=true`
+  - `GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer`
+  - `GF_SECURITY_ADMIN_PASSWORD=your-strong-password`
+- Expose port: `3000`
+
+#### 5️⃣ Configure App Environment
+In your main app service, add/update:
+- `JWT_SECRET` = a strong random string
+- `DATABASE_URL` = `${{ Postgres.DATABASE_URL }}`
+- `GRAFANA_URL` = `http://grafana:3000` (if you added Grafana)
+
+**Done! Your API is live** 🎉
+
+**Access:**
+- API: `https://your-app.railway.app/`
+- Swagger: `https://your-app.railway.app/documentation`
+- Grafana: `https://your-app.railway.app/grafana` (if added)
+- Metrics: `https://your-app.railway.app/metrics`
+
+**Cost:** 
+- Hobby: ~$5-10/month (app + PostgreSQL)
+- With monitoring: ~$15/month (+ Prometheus + Grafana)
+
+**Note:** Prometheus and Grafana are **optional**. The app works perfectly without them!
 
 ---
 
