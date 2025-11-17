@@ -13,7 +13,8 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         version: '1.0.0',
       },
       // Don't set host - let Swagger UI detect it from the request
-      schemes: ['http', 'https'],
+      // Use https in production, both in development
+      schemes: fastify.config.NODE_ENV === 'production' ? ['https'] : ['http', 'https'],
       consumes: ['application/json'],
       produces: ['application/json'],
       tags: [
