@@ -11,8 +11,8 @@
   },
   "scripts": {
     "dev": "tsx watch --clear-screen=false src/server.ts",
-    "build": "tsup",
-    "start": "node dist/server.js",
+    "build": "tsup && prisma generate",
+    "start": "prisma migrate deploy && node dist/server.js",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
