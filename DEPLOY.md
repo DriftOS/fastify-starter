@@ -16,15 +16,23 @@ The live demo is hosted at: **[fastify-starter-demo.driftos.dev](https://fastify
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter)
 
+**Step-by-step:**
+
 1. Click the button above
 2. Connect your GitHub account
-3. Railway automatically:
-   - Sets up PostgreSQL
-   - Configures environment variables
-   - Deploys the app
-4. Done! Your API is live in ~3 minutes
+3. Railway creates your project
+4. **IMPORTANT: Add PostgreSQL database:**
+   - Click "Add Service" (top right)
+   - Select "PostgreSQL"
+   - Railway auto-creates DB and sets `DATABASE_URL` ✅
+5. Update `JWT_SECRET` if needed (already set to a placeholder)
+6. Deploy!
+
+**Done! Your API is live in ~3 minutes** 🎉
 
 **Cost:** ~$5/month for hobby projects
+
+**Why separate PostgreSQL?** Railway doesn't run `docker-compose.yml` - it only builds your Dockerfile. PostgreSQL must be a separate Railway service.
 
 ---
 
@@ -205,7 +213,19 @@ Add Redis for:
 
 ## Troubleshooting
 
-### App Won't Start
+### Railway: "env must have required property 'DATABASE_URL'"
+
+**Solution:** You need to add PostgreSQL as a separate service!
+
+1. Go to your Railway project
+2. Click "Add Service" (top right)
+3. Select "PostgreSQL"
+4. Railway auto-sets `DATABASE_URL` ✅
+5. Redeploy
+
+**Why?** Railway doesn't run `docker-compose.yml`. PostgreSQL must be a separate Railway service.
+
+### App Won't Start (Local)
 
 ```bash
 # Check logs
