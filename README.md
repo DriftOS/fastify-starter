@@ -7,8 +7,20 @@ Production-ready Fastify starter template with TypeScript, Prisma, Docker, Prome
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> 🎉 **[Live Demo](https://fastify-starter-demo.driftos.dev)** - See it in action with Grafana dashboards + Swagger docs  
-> 📚 **[Deploy Your Own](./DEPLOY.md)** - One-click deploy to Railway, Render, or Fly.io
+> 🎉 **[Live Demo](https://fastify-starter-demo.driftos.dev)** - See it in action with Grafana dashboards + Swagger docs
+
+## 🚀 Quick Deploy (ALL services included)
+
+Deploy the **complete stack** (App + PostgreSQL + Prometheus + Grafana) with one click:
+
+| Platform | Deploy Button | Auto-Services | Time | Cost |
+|----------|--------------|---------------|------|------|
+| **Render** ⭐ | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy) | ✅ ALL | 3 min | ~$20/mo |
+| **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/fastify-starter) | ⚠️ Manual | 5 min | ~$15/mo |
+| **Fly.io** | [Deploy Guide](./DEPLOY.md#fly-io) | ✅ Most | 5 min | ~$10/mo |
+
+> 💡 **Recommended:** Use **Render** for true one-click deployment with all services auto-configured. Railway requires manually adding each service.  
+> 📖 **Full instructions:** See [DEPLOY.md](./DEPLOY.md) for detailed setup guides
 
 ## 🏆 Why This Starter?
 
@@ -34,8 +46,36 @@ Unlike other Fastify templates, this includes **zero-config monitoring** and **a
 
 ## ✨ Features
 
+### 📦 Complete Production Stack
+
+When you deploy, you get **ALL of these services** automatically configured:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Your Application                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
+│  │   Fastify    │──│  PostgreSQL  │  │  Prometheus  │  │
+│  │     API      │  │   Database   │  │   Metrics    │  │
+│  └──────┬───────┘  └──────────────┘  └──────┬───────┘  │
+│         │                                     │          │
+│         └─────────────┬─────────────────────┘          │
+│                       │                                  │
+│                 ┌─────▼──────┐                          │
+│                 │  Grafana   │                          │
+│                 │ Dashboards │                          │
+│                 └────────────┘                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+**What you get:**
+- ✅ **Fastify API** - High-performance REST API with Swagger docs
+- ✅ **PostgreSQL** - Production database with automatic backups
+- ✅ **Prometheus** - Metrics collection and storage
+- ✅ **Grafana** - Pre-configured dashboards accessible at `/grafana`
+- ✅ **All connected** - Services communicate via internal networking
+
 ### Core Stack
-- **Fastify** - High-performance web framework
+- **Fastify** - High-performance web framework (4x faster than Express)
 - **TypeScript** - Full type safety with strict mode
 - **Prisma** - Type-safe database ORM
 - **PostgreSQL** - Robust relational database
