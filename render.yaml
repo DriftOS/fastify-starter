@@ -44,4 +44,4 @@ databases:
   - name: postgres
     databaseName: fastify_db
     user: fastify_user
-    plan: starter
+    plan: free
