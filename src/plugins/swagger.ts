@@ -13,17 +13,7 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         description: 'Production-ready Fastify starter with TypeScript, Prisma, and Docker',
         version: '1.0.0',
       },
-      servers: [
-        {
-          url: fastify.config.NODE_ENV === 'production' ? 'https://{host}' : 'http://{host}',
-          variables: {
-            host: {
-              default: 'localhost:8080',
-              description: 'API hostname',
-            },
-          },
-        },
-      ],
+      // Don't set servers - let Swagger UI auto-detect from browser URL
       tags: [
         { name: 'Health', description: 'Health check endpoints' },
         { name: 'Auth', description: 'Authentication endpoints' },
