@@ -7,9 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install dependencies
-RUN npm ci --only=production && \
-    npm install -g prisma && \
+# Install ALL dependencies (including devDependencies needed for build)
+RUN npm ci && \
     npx prisma generate
 
 # Copy source code
@@ -17,6 +16,9 @@ COPY . .
 
 # Build the application
 RUN npm run build
+
+# Remove devDependencies for production
+RUN npm prune --omit=dev
 
 # Production stage
 FROM node:18-alpine
