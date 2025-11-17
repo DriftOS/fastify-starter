@@ -10,7 +10,7 @@ const userRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
       schema: {
         description: 'Get current user profile',
         tags: ['Users'],
-        security: [{ Bearer: [] }],
+        security: [{ bearerAuth: [] }],
         response: {
           200: Type.Object({
             success: Type.Literal(true),

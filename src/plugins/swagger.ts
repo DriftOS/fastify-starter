@@ -6,17 +6,24 @@ import type { FastifyPluginAsync } from 'fastify';
 const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
   // Register Swagger
   await fastify.register(fastifySwagger, {
-    swagger: {
+    openapi: {
+      openapi: '3.0.0',
       info: {
         title: 'Fastify Gold Standard API',
         description: 'Production-ready Fastify starter with TypeScript, Prisma, and Docker',
         version: '1.0.0',
       },
-      // Don't set host - let Swagger UI detect it from the request
-      // Use https in production, both in development
-      schemes: fastify.config.NODE_ENV === 'production' ? ['https'] : ['http', 'https'],
-      consumes: ['application/json'],
-      produces: ['application/json'],
+      servers: [
+        {
+          url: fastify.config.NODE_ENV === 'production' ? 'https://{host}' : 'http://{host}',
+          variables: {
+            host: {
+              default: 'localhost:8080',
+              description: 'API hostname',
+            },
+          },
+        },
+      ],
       tags: [
         { name: 'Health', description: 'Health check endpoints' },
         { name: 'Auth', description: 'Authentication endpoints' },
@@ -24,13 +31,13 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         { name: 'Todos', description: 'Todo management (demonstrates Golden Orchestrator pattern)' },
         { name: 'Example', description: 'Example CRUD endpoints (demonstrates direct Prisma access)' },
       ],
-      securityDefinitions: {
-        Bearer: {
-          type: 'apiKey',
-          name: 'Authorization',
-          in: 'header',
-          description:
-            'JWT Authorization header using the Bearer scheme. Example: "Bearer {token}"',
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          },
         },
       },
     },

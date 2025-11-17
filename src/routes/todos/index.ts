@@ -27,7 +27,7 @@ const todoRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
       schema: {
         description: 'Create a new todo using the Golden Orchestrator pattern',
         tags: ['Todos'],
-        security: [{ Bearer: [] }],
+        security: [{ bearerAuth: [] }],
         body: Type.Object({
           title: Type.String({
             minLength: 1,
@@ -133,7 +133,7 @@ const todoRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
       schema: {
         description: 'Get all todos for the current user',
         tags: ['Todos'],
-        security: [{ Bearer: [] }],
+        security: [{ bearerAuth: [] }],
         response: {
           200: Type.Object({
             success: Type.Literal(true),

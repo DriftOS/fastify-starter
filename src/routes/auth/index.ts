@@ -153,7 +153,7 @@ const authRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
       schema: {
         description: 'Verify JWT token',
         tags: ['Auth'],
-        security: [{ Bearer: [] }],
+        security: [{ bearerAuth: [] }],
         response: {
           200: Type.Object({
             success: Type.Literal(true),

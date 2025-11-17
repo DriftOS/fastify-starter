@@ -22,7 +22,7 @@ const exampleRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
       schema: {
         description: 'Get all examples',
         tags: ['Example'],
-        security: [{ Bearer: [] }],
+        security: [{ bearerAuth: [] }],
         response: {
           200: Type.Object({
             success: Type.Literal(true),
@@ -63,7 +63,7 @@ const exampleRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
       schema: {
         description: 'Create a new example',
         tags: ['Example'],
-        security: [{ Bearer: [] }],
+        security: [{ bearerAuth: [] }],
         body: Type.Object({
           title: Type.String({ minLength: 1 }),
           description: Type.String(),
