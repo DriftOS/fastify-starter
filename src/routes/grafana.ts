@@ -24,19 +24,8 @@ const grafanaRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
   await fastify.register(httpProxy, {
     upstream: grafanaUrl,
     prefix: '/grafana',
-    rewritePrefix: '/',
+    rewritePrefix: '/grafana', // Don't rewrite - let Grafana handle the subpath
     http2: false,
-    // Forward original host header so Grafana knows the public domain
-    replyOptions: {
-      rewriteRequestHeaders: (_req, headers) => {
-        return {
-          ...headers,
-          // Preserve the original host header for Grafana
-          'x-forwarded-host': headers.host || headers['x-forwarded-host'],
-          'x-forwarded-proto': headers['x-forwarded-proto'] || 'https',
-        };
-      },
-    },
   });
   
   fastify.log.info(`Grafana proxy configured: ${grafanaUrl}`);
