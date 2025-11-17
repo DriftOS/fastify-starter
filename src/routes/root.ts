@@ -6,7 +6,7 @@ const rootRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
     
     return reply.send({
       message: 'Welcome to Fastify Gold Standard Starter',
-      documentation: `${baseUrl}${fastify.config.API_PREFIX}/${fastify.config.API_VERSION}/documentation`,
+      documentation: `${baseUrl}/documentation`,
       health: `${baseUrl}${fastify.config.API_PREFIX}/${fastify.config.API_VERSION}/health`,
       metrics: `${baseUrl}/metrics`,
       grafana: `${baseUrl}/grafana`,

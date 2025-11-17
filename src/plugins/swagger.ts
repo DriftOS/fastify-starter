@@ -12,7 +12,7 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
         description: 'Production-ready Fastify starter with TypeScript, Prisma, and Docker',
         version: '1.0.0',
       },
-      host: `${fastify.config.HOST}:${fastify.config.PORT}`,
+      // Don't set host - let Swagger UI detect it from the request
       schemes: ['http', 'https'],
       consumes: ['application/json'],
       produces: ['application/json'],
