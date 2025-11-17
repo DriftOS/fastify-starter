@@ -174,30 +174,26 @@ export default function (plop) {
       }
 
       // 8. Success message
-      actions.push({
-        type: 'custom',
-        name: 'success',
-        action: () => {
-          console.log('\n✨ Service created successfully!\n');
-          console.log(`📁 Service location: src/services/${serviceName.toLowerCase()}/`);
-          if (data.includeRoute) {
-            console.log(`🛣️  Route location: src/routes/${serviceName.toLowerCase()}/`);
-          }
-          if (data.includeTests) {
-            console.log(`🧪 Tests location: src/services/${serviceName.toLowerCase()}/__tests__/`);
-          }
-          console.log('\n📝 Next steps:');
-          console.log(`   1. Implement business logic in operations/`);
-          console.log(`   2. Update types in types/index.ts`);
-          if (data.includePrisma) {
-            console.log(`   3. Run: npm run db:migrate`);
-          }
-          if (data.includeRoute) {
-            console.log(`   4. Register route in src/app.ts`);
-          }
-          console.log(`   5. Run tests: npm test ${serviceName.toLowerCase()}`);
-          return 'Generator completed!';
-        },
+      actions.push(() => {
+        console.log('\n✨ Service created successfully!\n');
+        console.log(`📁 Service location: src/services/${serviceName.toLowerCase()}/`);
+        if (data.includeRoute) {
+          console.log(`🛣️  Route location: src/routes/${serviceName.toLowerCase()}/`);
+        }
+        if (data.includeTests) {
+          console.log(`🧪 Tests location: src/services/${serviceName.toLowerCase()}/__tests__/`);
+        }
+        console.log('\n📝 Next steps:');
+        console.log(`   1. Implement business logic in operations/`);
+        console.log(`   2. Update types in types/index.ts`);
+        if (data.includePrisma) {
+          console.log(`   3. Run: npm run db:migrate`);
+        }
+        if (data.includeRoute) {
+          console.log(`   4. Register route in src/app.ts`);
+        }
+        console.log(`   5. Run tests: npm test ${serviceName.toLowerCase()}`);
+        return 'Generator completed!';
       });
 
       return actions;
