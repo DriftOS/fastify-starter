@@ -48,8 +48,10 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
       // Disable staticCSP for better Safari compatibility
       staticCSP: false,
       transformSpecification: (swaggerObject, _req, _reply) => {
-        // Remove host to make it work across environments (Safari compatibility)
-        const { host, ...spec } = swaggerObject;
+        // Create a copy without host for Safari compatibility
+        const spec = { ...swaggerObject };
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete spec.host;
         return spec;
       },
     });
