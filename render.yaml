@@ -2,7 +2,7 @@ services:
   # Main Application
   - type: web
     name: fastify-app
-    env: docker
+    runtime: docker
     dockerfilePath: ./Dockerfile
     envVars:
       - key: DATABASE_URL
@@ -18,13 +18,6 @@ services:
       - key: GRAFANA_URL
         value: http://grafana:3000
     healthCheckPath: /api/v1/health
-    
-  # PostgreSQL Database (use native Render PostgreSQL)
-  - type: postgres
-    name: postgres
-    databaseName: fastify_db
-    user: fastify_user
-    plan: starter
     
   # Prometheus (private Docker service)
   - type: pserv
@@ -46,3 +39,9 @@ services:
         value: Viewer
       - key: GF_SECURITY_ADMIN_PASSWORD
         generateValue: true
+
+databases:
+  - name: postgres
+    databaseName: fastify_db
+    user: fastify_user
+    plan: starter
