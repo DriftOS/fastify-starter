@@ -1,5 +1,6 @@
 import type { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
 
+// eslint-disable-next-line @typescript-eslint/require-await
 const rootRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
   fastify.get(
     '/',
@@ -8,7 +9,7 @@ const rootRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
         hide: true, // Hide from Swagger docs - it's an HTML page, not an API endpoint
       },
     },
-    async (_request, reply) => {
+    (_request, reply) => {
       const baseUrl = `${_request.protocol}://${_request.hostname}`;
 
       const html = `
