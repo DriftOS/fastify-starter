@@ -392,8 +392,8 @@ async function main() {
   
   console.log(`\n📊 Generating ${orchestrators.length} dashboard(s)...\n`);
   
-  // Ensure output directory exists (separate folder for auto-generated dashboards)
-  const outputDir = 'docker/grafana/dashboards/auto-generated';
+  // Ensure output directory exists (inside provisioning folder, DriftOS pattern)
+  const outputDir = 'docker/grafana/provisioning/dashboards/auto-generated';
   await fs.mkdir(outputDir, { recursive: true });
   
   // Generate dashboards

@@ -46,7 +46,7 @@ prisma/migrations/dev/
 docker/data/
 
 # Auto-generated dashboards (run npm run generate:dashboards)
-docker/grafana/dashboards/auto-generated/
+docker/grafana/provisioning/dashboards/auto-generated/
 
 # Temporary files
 tmp/
