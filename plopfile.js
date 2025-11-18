@@ -169,40 +169,58 @@ export default function (plop) {
           type: 'append',
           path: 'prisma/schema.prisma',
           pattern: /(\/\/ Add models below)/gi,
-          template: '\n// {{pascalCase name}} model\nmodel {{pascalCase name}} {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map("{{kebabCase name}}s")\n}\n',
+          template: '\n// {{pascalCase name}} model\nmodel {{pascalCase name}} {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map("{{kebabCase name}}")\n}\n',
         });
       }
 
-      // 8. Success message
-      actions.push(() => {
+      // 8. Auto-register route in src/app.ts
+      if (data.includeRoute) {
         const kebabName = serviceName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
         const camelName = serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
+        
+        // Add import
+        actions.push({
+          type: 'modify',
+          path: 'src/app.ts',
+          pattern: /(import todoRoutes from '.\/routes\/todos\/index';)/g,
+          template: `$1\nimport ${camelName}Routes from './routes/${kebabName}/index';`,
+        });
+        
+        // Add registration
+        actions.push({
+          type: 'modify',
+          path: 'src/app.ts',
+          pattern: /(\/\/ Todo routes \(demonstrates Golden Orchestrator pattern\)\s+await fastify\.register\(todoRoutes, { prefix: '\/todos' }\);)/g,
+          template: `$1\n\n      // ${serviceName} routes (demonstrates Golden Orchestrator pattern)\n      await fastify.register(${camelName}Routes, { prefix: '/${kebabName}' });`,
+        });
+      }
+      
+      // 9. Success message
+      actions.push(() => {
+        const kebabName = serviceName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
         
         console.log('\n✨ Service created successfully!\n');
         console.log(`📁 Service: src/services/${kebabName}/`);
         if (data.includeRoute) {
           console.log(`🛣️  Route: src/routes/${kebabName}/`);
+          console.log(`✅ Auto-registered in src/app.ts`);
         }
         if (data.includeTests) {
           console.log(`🧪 Tests: src/services/${kebabName}/__tests__/`);
         }
         
         console.log('\n📝 Next steps:\n');
-        console.log('1️⃣  Register route in src/app.ts:');
-        console.log(`   \x1b[36mimport ${camelName}Routes from './routes/${kebabName}/index';\x1b[0m`);
-        console.log(`   \x1b[36mawait fastify.register(${camelName}Routes, { prefix: '/${kebabName}s' });\x1b[0m\n`);
-        
-        console.log('2️⃣  Implement business logic in operations/\n');
+        console.log('1️⃣  Implement business logic in operations/\n');
         
         if (data.includePrisma) {
-          console.log('3️⃣  Run database migration:');
+          console.log('2️⃣  Run database migration:');
           console.log(`   \x1b[36mnpm run db:migrate\x1b[0m\n`);
         }
         
-        console.log('4️⃣  Restart dev server (or it auto-restarts)\n');
+        console.log('3️⃣  Restart dev server (or it auto-restarts)\n');
         
-        console.log('5️⃣  View in Swagger:');
-        console.log(`   \x1b[36mhttp://localhost:8080/documentation\x1b[0m`);
+        console.log('4️⃣  View in Swagger:');
+        console.log(`   \x1b[36mhttp://localhost:3000/documentation\x1b[0m`);
         console.log(`   \x1b[90m(Tags auto-detected - no manual config needed!)\x1b[0m\n`);
         
         return 'Generator completed!';
