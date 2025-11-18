@@ -312,7 +312,7 @@ function generateDashboard(metadata: OrchestratorMetadata) {
           textMode: 'value_and_name',
           reduceOptions: {
             values: false,
-            calcs: ['lastNotNull'], // Show the current value
+            calcs: ['mean'], // Mean is more reliable for rate queries
           },
         },
       },
