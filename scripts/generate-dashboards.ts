@@ -286,7 +286,7 @@ function generateDashboard(metadata: OrchestratorMetadata) {
         id: 5,
         targets: [
           {
-            expr: `sum(rate(orchestrator_pipeline_duration_ms_count{service="${metadata.serviceName}"}[$__rate_interval])) * 60`,
+            expr: `(sum(rate(orchestrator_pipeline_duration_ms_count{service="${metadata.serviceName}"}[$__rate_interval])) or vector(0)) * 60`,
             legendFormat: 'ops/min',
             refId: 'A',
           },
@@ -392,8 +392,8 @@ async function main() {
   
   console.log(`\n📊 Generating ${orchestrators.length} dashboard(s)...\n`);
   
-  // Ensure output directory exists
-  const outputDir = 'docker/grafana/dashboards';
+  // Ensure output directory exists (separate folder for auto-generated dashboards)
+  const outputDir = 'docker/grafana/dashboards/auto-generated';
   await fs.mkdir(outputDir, { recursive: true });
   
   // Generate dashboards

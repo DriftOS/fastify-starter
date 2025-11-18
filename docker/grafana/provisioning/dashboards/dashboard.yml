@@ -1,6 +1,7 @@
 apiVersion: 1
 
 providers:
+  # Manual/custom dashboards
   - name: 'default'
     orgId: 1
     folder: ''
@@ -11,3 +12,15 @@ providers:
     allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards
+  
+  # Auto-generated orchestrator dashboards
+  - name: 'auto-generated'
+    orgId: 1
+    folder: 'Auto-Generated'
+    folderUid: 'auto-generated'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/auto-generated
