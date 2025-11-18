@@ -1,14 +1,17 @@
 import type { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
 
 const rootRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
-  fastify.get('/', {
-    schema: {
-      hide: true, // Hide from Swagger docs - it's an HTML page, not an API endpoint
+  fastify.get(
+    '/',
+    {
+      schema: {
+        hide: true, // Hide from Swagger docs - it's an HTML page, not an API endpoint
+      },
     },
-  }, async (_request, reply) => {
-    const baseUrl = `${_request.protocol}://${_request.hostname}`;
-    
-    const html = `
+    async (_request, reply) => {
+      const baseUrl = `${_request.protocol}://${_request.hostname}`;
+
+      const html = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,9 +115,10 @@ const rootRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
 </body>
 </html>
     `;
-    
-    return reply.type('text/html').send(html);
-  });
+
+      return reply.type('text/html').send(html);
+    }
+  );
 };
 
 export default rootRoutes;

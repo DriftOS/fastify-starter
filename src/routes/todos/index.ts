@@ -168,7 +168,7 @@ const todoRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
 
       return reply.send({
         success: true,
-        data: todos.map(todo => ({
+        data: todos.map((todo) => ({
           ...todo,
           description: todo.description || '',
         })),
