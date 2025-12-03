@@ -53,7 +53,7 @@ export class CreateTodoOrchestrator extends BaseOrchestrator<
       {
         name: 'notify-creation',
         operation: notifyCreation,
-        critical: true, // Non-critical - don't fail if notification fails
+        critical: false, // Non-critical - don't fail if notification fails
         timeout: 1000,
       },
     ];

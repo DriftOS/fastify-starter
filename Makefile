@@ -1,4 +1,4 @@
-.PHONY: help setup up down restart logs dev test test-watch lint format typecheck build clean generate db-migrate db-studio db-push db-reset docker-clean all
+.PHONY: help setup up down restart logs dev test test-watch lint format typecheck build clean generate db-extensions db-migrate db-studio db-push db-reset docker-clean all
 
 # Default target - show help
 help:
@@ -32,6 +32,7 @@ help:
 	@echo "  make typecheck      - Run TypeScript type checking"
 	@echo ""
 	@echo "🗄️  Database:"
+	@echo "  make db-extensions  - Install PostgreSQL extensions (pgvector, etc.)"
 	@echo "  make db-migrate     - Run Prisma migrations"
 	@echo "  make db-studio      - Open Prisma Studio"
 	@echo "  make db-push        - Push schema changes"
@@ -74,12 +75,18 @@ logs:
 	@echo "📜 Showing Docker logs..."
 	@npm run docker:logs
 
+# Initialize PostgreSQL extensions (required for pgvector, etc.)
+db-extensions:
+	@echo "🔌 Ensuring PostgreSQL extensions are installed..."
+	@docker exec fastify_postgres psql -U postgres -d fastify_starter -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; CREATE EXTENSION IF NOT EXISTS "pgcrypto"; CREATE EXTENSION IF NOT EXISTS "vector";' 2>/dev/null || true
+
 # Main entry point - like DriftOS!
 up: docker-up
 	@echo "⏳ Waiting for PostgreSQL to be ready..."
 	@sleep 8
-	@echo "🗄️  Running database migrations..."
-	@npm run db:migrate
+	@$(MAKE) db-extensions
+	@echo "🗄️  Pushing database schema..."
+	@npm run db:push
 	@echo "📊 Generating Grafana dashboards..."
 	@npm run generate:dashboards || echo "⚠️  No orchestrators found yet"
 	@echo ""

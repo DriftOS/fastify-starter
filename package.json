@@ -33,6 +33,7 @@
     "generate:operation": "plop operation",
     "generate:route": "plop route",
     "generate:dashboards": "tsx scripts/generate-dashboards.ts",
+    "generate:cli": "node scripts/gen-service.mjs",
     "load-test": "tsx scripts/load-test.ts",
     "prepare": "husky install || true"
   },
