@@ -63,20 +63,47 @@ npm run dev
 
 The fastest way to create a new service with the Golden Orchestrator pattern:
 
+### Interactive Generator (Recommended)
+
 ```bash
 npm run generate
 
 ? What do you want to generate? Service
 ? Service name: Order
-? Operations: validate,process,notify
+? Service type: CRUD (entity management: users, orders, products)
+? Operations: validate,create,notify
 ? Include Prisma model? Yes
 ? Include API route? Yes
 ? Include tests? Yes
 
-✨ Creating service: Order
+✨ CRUD Service created successfully!
   ✓ Created 14 files (~600 lines)
   ✓ Complete with tests
   ✓ Ready in 2 minutes!
+```
+
+### Service Types
+
+The generator supports **two service patterns**:
+
+| Type | Use Case | Default Operations | Prisma |
+|------|----------|-------------------|--------|
+| **CRUD** | Entity management (users, orders, products) | validate, create, notify | ✅ Yes |
+| **Calculation** | Compute operations (scoring, analysis, transforms) | validate, calculate, format | ❌ No |
+
+### CLI Generator (Non-Interactive)
+
+For scripting or quick generation without prompts:
+
+```bash
+# CRUD service
+node scripts/gen-service.mjs Order crud validate create notify
+
+# Calculation service
+node scripts/gen-service.mjs Scoring calculation validate calculate format
+
+# Uses defaults if operations omitted
+node scripts/gen-service.mjs User crud
 ```
 
 This creates:

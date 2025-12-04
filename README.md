@@ -145,18 +145,33 @@ fastify-gold-standard-starter/
 
 **Generate a complete service in 2 minutes!**
 
+#### Interactive Mode
 ```bash
 npm run generate
 
 ? What do you want to generate? Service
 ? Service name: Order
-? Operations: validate,process,notify
+? Service type: CRUD (entity management: users, orders, products)
+? Operations: validate,create,notify
 ? Include Prisma model? Yes
 ? Include API route? Yes
 ? Include tests? Yes
 
 ✨ Created 14 files with ~600 lines of production code!
 ```
+
+#### CLI Mode (Non-Interactive)
+```bash
+# CRUD service (entity management)
+node scripts/gen-service.mjs Order crud validate create notify
+
+# Calculation service (compute operations)
+node scripts/gen-service.mjs Scoring calculation validate calculate format
+```
+
+**Service Types:**
+- **CRUD** - Entity management (users, orders, products) with Prisma integration
+- **Calculation** - Compute operations (scoring, analysis, transformation) without database
 
 See **[docs/GETTING_STARTED.md](./docs/GETTING_STARTED.md)** for full details.
 

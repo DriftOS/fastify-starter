@@ -2,18 +2,21 @@
  * Plop Generator for Golden Orchestrator Services
  *
  * Supports two service types:
- * - calculation: Services that compute results (scoring, analysis, transformation)
  * - crud: Services that manage entities (users, orders, products)
+ * - calculation: Services that compute results (scoring, analysis, transformation)
  *
  * Usage:
  *   npm run generate              - Interactive generator
  *   npm run generate:service      - Generate service directly
- *   npm run generate:operation    - Add operation to service
+ *   npm run generate:operation    - Add operation to existing service
  *   npm run generate:route        - Generate standalone route
  *
+ * CLI Generator (non-interactive):
+ *   node scripts/gen-service.mjs <ServiceName> <crud|calculation> [operations...]
+ *
  * Documentation:
- *   See GENERATOR_README.md for quick start
- *   See CLI_GENERATOR_GUIDE.md for comprehensive guide
+ *   See docs/GETTING_STARTED.md for setup and usage
+ *   See docs/ARCHITECTURE.md for pattern details
  */
 
 // @ts-nocheck
