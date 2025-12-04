@@ -137,7 +137,7 @@ fastify-gold-standard-starter/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18-20 LTS (Node 22+ may show dependency warnings)
+- Node.js 20+ LTS
 - Docker & Docker Compose
 - PostgreSQL (or use Docker)
 

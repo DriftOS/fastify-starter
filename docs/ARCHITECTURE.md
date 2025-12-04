@@ -2,7 +2,7 @@
 
 ## Golden Orchestrator Pattern
 
-The Golden Orchestrator pattern structures complex business logic as a pipeline of pure operations, providing automatic performance tracking, error handling, and testability.
+The Golden Orchestrator pattern structures complex business logic as a pipeline of single-responsibility operations, providing automatic performance tracking, error handling, and testability.
 
 ---
 
@@ -28,17 +28,26 @@ export class CreateOrderOrchestrator extends BaseOrchestrator<
 ```
 
 ### 2. Operations
-Pure functions that transform context.
+Single-responsibility async functions that transform context. Each operation does one thing - it may perform I/O (database writes, API calls), but owns exactly one concern.
 
 ```typescript
-export async function validate(
-  context: OrderPipelineContext
+export async function createOrder(
+  ctx: OrderPipelineContext
 ): Promise<OrderPipelineContext> {
-  if (!context.input.customerId) {
-    context.errors.push(new Error('Customer ID required'));
-  }
-  
-  return context; // Always return context
+  // Skip if validation failed
+  if (ctx.errors.length > 0) return ctx;
+
+  // Database write - side effects are allowed
+  const order = await prisma.order.create({
+    data: {
+      customerId: ctx.input.customerId,
+      items: ctx.input.items,
+      status: 'PENDING',
+    },
+  });
+
+  ctx.order = order;
+  return ctx; // Always return context
 }
 ```
 
@@ -66,10 +75,10 @@ Service (facade pattern)
     ↓
 Orchestrator (runs pipeline)
     ↓
-Operations (pure functions)
-    ├─ Operation 1: validate
-    ├─ Operation 2: process  
-    └─ Operation 3: notify
+Operations (single-responsibility functions)
+    ├─ Operation 1: validate (pure)
+    ├─ Operation 2: createOrder (DB write)
+    └─ Operation 3: notify (external API)
     ↓
 Result (with metrics)
     ↓
@@ -327,21 +336,30 @@ const orderRoutes: FastifyPluginAsyncTypebox = async (fastify) => {
 ## Key Benefits
 
 ### 1. Testability
-Each operation is a pure function that can be tested in isolation:
+Each operation is isolated and can be tested by mocking its single dependency:
 
 ```typescript
-describe('validate operation', () => {
-  it('should reject empty customerId', async () => {
-    const context = {
-      input: { customerId: '', items: [], total: 0 },
-      results: {},
-      errors: [],
+describe('createOrder operation', () => {
+  it('should create order in database', async () => {
+    // Mock the single dependency
+    const mockPrisma = {
+      order: {
+        create: vi.fn().mockResolvedValue({ id: 'order-1', status: 'PENDING' }),
+      },
     };
-    
-    const result = await validate(context);
-    
-    expect(result.errors).toHaveLength(1);
-    expect(result.errors[0].message).toContain('Customer ID');
+
+    const ctx = {
+      input: { customerId: 'cust-1', items: [] },
+      errors: [],
+      deps: { prisma: mockPrisma },
+    };
+
+    const result = await createOrder(ctx);
+
+    expect(mockPrisma.order.create).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { customerId: 'cust-1' } })
+    );
+    expect(result.order.id).toBe('order-1');
   });
 });
 ```
@@ -395,7 +413,7 @@ Clear separation of concerns:
 - **Routes**: HTTP handling, validation, authentication
 - **Services**: Public API, singleton management
 - **Orchestrators**: Pipeline definition, flow control
-- **Operations**: Business logic, pure functions
+- **Operations**: Single-responsibility functions (may include I/O)
 
 ---
 
@@ -427,20 +445,25 @@ But you get:
 
 ## Best Practices
 
-### 1. Keep Operations Pure
+### 1. Keep Operations Single-Responsibility
+Each operation should do one thing. Side effects (DB writes, API calls) are allowed - but each operation owns exactly one concern.
+
 ```typescript
-// ✅ Good - pure function
-export async function validate(ctx: Context) {
-  if (!ctx.input.email) {
-    ctx.errors.push(new Error('Email required'));
-  }
+// ✅ Good - one responsibility (create order)
+export async function createOrder(ctx: Context) {
+  if (ctx.errors.length > 0) return ctx;
+
+  ctx.order = await prisma.order.create({
+    data: { customerId: ctx.input.customerId, status: 'PENDING' },
+  });
   return ctx;
 }
 
-// ❌ Bad - side effects
-export async function validate(ctx: Context) {
-  console.log('Validating...'); // Logging in operation
-  await sendMetric('validate_called'); // Side effect
+// ❌ Bad - multiple responsibilities
+export async function createOrderAndNotify(ctx: Context) {
+  ctx.order = await prisma.order.create({...});
+  await sendEmail(ctx.order.customerEmail); // Should be separate operation
+  await updateInventory(ctx.order.items);   // Should be separate operation
   return ctx;
 }
 ```
@@ -557,7 +580,7 @@ getPipeline() {
 The Golden Orchestrator pattern provides:
 
 - ✅ **Structure** - Clear, predictable flow
-- ✅ **Testability** - Pure, isolated functions
+- ✅ **Testability** - Isolated, single-responsibility functions
 - ✅ **Observability** - Automatic metrics
 - ✅ **Reliability** - Error handling, timeouts
 - ✅ **Maintainability** - Separation of concerns
